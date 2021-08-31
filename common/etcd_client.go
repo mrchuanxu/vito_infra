@@ -12,7 +12,7 @@ import (
 )
 
 const (
-	clientIP = "47.115.122.30:2379"
+	clientIP = "localhost:2379"
 )
 
 var (

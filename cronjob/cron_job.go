@@ -1,8 +1,8 @@
 package cronjob
 
 import (
-	"github.com/robfig/cron"
 	"github.com/vito_infra/logger"
+	"github.com/robfig/cron"
 )
 
 // CronJob cronjob job

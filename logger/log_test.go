@@ -1,10 +1,9 @@
 package logger_test
 
 import (
+	"github.com/vito_infra/logger"
 	"testing"
 	"time"
-
-	"github.com/vito_infra/logger"
 )
 
 func Test_Log(t *testing.T) {
