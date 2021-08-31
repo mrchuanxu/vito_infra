@@ -1,6 +1,6 @@
 module github.com/vito_infra
 
-go 1.14
+go 1.16
 
 require (
 	github.com/coreos/bbolt v1.3.4 // indirect
@@ -22,14 +22,14 @@ require (
 	github.com/spf13/viper v1.7.1
 	github.com/stretchr/testify v1.4.0
 	github.com/tmc/grpc-websocket-proxy v0.0.0-20200427203606-3cfed13b9966 // indirect
-	go.etcd.io/bbolt v1.3.5 // indirect
 	go.etcd.io/etcd v3.3.25+incompatible
 	go.uber.org/zap v1.15.0
+	golang.org/x/sys v0.0.0-20200923182605-d9f96fdee20d // indirect
 	golang.org/x/time v0.0.0-20200416051211-89c76fbcd5d1 // indirect
 	google.golang.org/grpc v1.29.1
 	sigs.k8s.io/yaml v1.2.0 // indirect
 )
 
-replace google.golang.org/grpc v1.29.1 => google.golang.org/grpc v1.27.0
+replace google.golang.org/grpc v1.29.1 => google.golang.org/grpc v1.26.0
 
 replace github.com/coreos/bbolt v1.3.4 => go.etcd.io/bbolt v1.3.4
