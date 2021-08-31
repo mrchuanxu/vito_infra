@@ -1,4 +1,4 @@
-module github.com/vito_infra
+module github.com/VitoChueng/vito_infra
 
 go 1.16
 
