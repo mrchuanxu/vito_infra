@@ -35,7 +35,7 @@ func DBHandleGrpcInterceptor() grpc.UnaryServerInterceptor {
 	}
 }
 
-// MySQLConn 获取mysql链接
+// MySQLConn 获取etcd mysql链接
 func MySQLConn(ctx context.Context) (*gorm.DB, error) {
 	kvRsp, err := common.EtcdClientKV.Get(ctx, config.GetString("dbConnStr", our2bTest))
 	if err != nil {
@@ -57,6 +57,25 @@ func MySQLConn(ctx context.Context) (*gorm.DB, error) {
 	return dbClient, err
 }
 
+// MysqlParamsConn 通过参数获取链接
+// mysqlConnStr 参考 root:1234@tcp(rds.aliyuncs.com:3306)/
+// context 必须通过incomingCtx设定db_code
+func MysqlParamsConn(ctx context.Context,mysqlConnStr string) (*gorm.DB, error) {
+	dbName := getDBName(ctx)
+	if dbName == "" {
+		return nil, errors.New("sql object is nil")
+	}
+	dbClient, err := PrepareGorm(Provider(config.GetString("provider", provider)),
+		ConnectStr(mysqlConnStr+dbName+dbParse),
+		MaxConns(config.GetInt("maxOpenConn", maxOpenConn)),
+		MaxIdleConns(config.GetInt("maxIdleConn", maxIdleConn)),
+	)
+	if err != nil {
+		logger.TransLogger.Sugar().Errorf("MySQLConn  PrepareGorm has err[%v] with conn [%s]", err, our2bTest)
+	}
+	return dbClient, err
+}
+
 func getDBName(ctx context.Context) string {
 	if md, ok := metadata.FromIncomingContext(ctx); ok {
 		v := md.Get("db_code")
@@ -67,7 +86,7 @@ func getDBName(ctx context.Context) string {
 	return ""
 }
 
-// RedisConn 获取redis客户端
+// RedisConn 获取redis客户端 必须搭建etcd
 func RedisConn(ctx context.Context) (*redis.Client, error) {
 	kvAddrRsp, err := common.EtcdClientKV.Get(ctx, config.GetString("redisConn", redisTest))
 	if err != nil {
@@ -82,6 +101,20 @@ func RedisConn(ctx context.Context) (*redis.Client, error) {
 	redisClient, err := PrepareRedis(ctx,
 		RedisAddr(string(kvAddrRsp.Kvs[0].Value)),
 		RedisPassword(string(kvPasRsp.Kvs[0].Value)),
+	)
+	if err != nil {
+		logger.TransLogger.Sugar().Errorf("RedisConn PrepareRedis  has err[%v]", err)
+	}
+	return redisClient, err
+}
+
+
+// RedisParamsConn 获取redis客户端
+// redisConnAddr
+func RedisParamsConn(ctx context.Context,redisConnAddr,redisConnPass string) (*redis.Client, error) {
+	redisClient, err := PrepareRedis(ctx,
+		RedisAddr(redisConnAddr),
+		RedisPassword(redisConnPass),
 	)
 	if err != nil {
 		logger.TransLogger.Sugar().Errorf("RedisConn PrepareRedis  has err[%v]", err)
