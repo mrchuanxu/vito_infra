@@ -2,12 +2,12 @@ package conn_test
 
 import (
 	"context"
-	"github.com/vito_infra/util"
+	"github.com/VitoChueng/vito_infra/util"
 	"google.golang.org/grpc/metadata"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	conn "github.com/vito_infra/conn"
+	conn "github.com/VitoChueng/vito_infra/conn"
 )
 
 func Test_MySqlConn(t *testing.T) {

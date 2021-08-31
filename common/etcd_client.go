@@ -5,9 +5,9 @@ import (
 	"time"
 
 	stdErr "github.com/pkg/errors"
-	"github.com/vito_infra/config"
+	"github.com/VitoChueng/vito_infra/config"
 
-	"github.com/vito_infra/logger"
+	"github.com/VitoChueng/vito_infra/logger"
 	"go.etcd.io/etcd/clientv3"
 )
 

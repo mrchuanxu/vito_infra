@@ -1,7 +1,7 @@
 package logger_test
 
 import (
-	"github.com/vito_infra/logger"
+	"github.com/VitoChueng/vito_infra/logger"
 	"testing"
 	"time"
 )

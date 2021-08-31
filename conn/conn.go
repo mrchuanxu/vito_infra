@@ -7,12 +7,12 @@ import (
 
 	"google.golang.org/grpc"
 
-	"github.com/vito_infra/common"
+	"github.com/VitoChueng/vito_infra/common"
 
 	"github.com/go-redis/redis/v7"
 	"github.com/jinzhu/gorm"
-	"github.com/vito_infra/config"
-	"github.com/vito_infra/logger"
+	"github.com/VitoChueng/vito_infra/config"
+	"github.com/VitoChueng/vito_infra/logger"
 	"google.golang.org/grpc/metadata"
 )
 

@@ -5,7 +5,7 @@ import (
 
 	grpc_middleware "github.com/grpc-ecosystem/go-grpc-middleware"
 
-	"github.com/vito_infra/logger"
+	"github.com/VitoChueng/vito_infra/logger"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 )

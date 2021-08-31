@@ -10,7 +10,7 @@ import (
 
 	"github.com/pkg/errors"
 
-	"github.com/vito_infra/logger"
+	"github.com/VitoChueng/vito_infra/logger"
 )
 
 const contentTypeJson = "application/json"

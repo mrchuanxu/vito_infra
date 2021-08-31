@@ -8,7 +8,7 @@ import (
 	"github.com/prometheus/common/log"
 
 	"github.com/spf13/viper"
-	"github.com/vito_infra/logger"
+	"github.com/VitoChueng/vito_infra/logger"
 )
 
 var config *viper.Viper

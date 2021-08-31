@@ -3,7 +3,7 @@ package common_test
 import (
 	"context"
 	"github.com/stretchr/testify/assert"
-	"github.com/vito_infra/common"
+	"github.com/VitoChueng/vito_infra/common"
 	"testing"
 )
 
