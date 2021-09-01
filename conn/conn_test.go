@@ -12,7 +12,7 @@ import (
 
 func Test_MySqlConn(t *testing.T) {
 	ctx := metadata.NewIncomingContext(context.Background(),metadata.MD{})
-	ctx = util.SetDBCodeCtx(ctx,"myscrm_jmadmin")
+	ctx = util.SetDBCodeCtx(ctx,"")
 	db, err := conn.MySQLConn(ctx)
 	assert.Nil(t, err)
 	err = db.DB().Ping()
@@ -22,8 +22,8 @@ func Test_MySqlConn(t *testing.T) {
 
 func Test_MysqlParamsConn(t *testing.T){
 	ctx := metadata.NewIncomingContext(context.Background(),metadata.MD{})
-	ctx = util.SetDBCodeCtx(ctx,"myscrm_jmadmin")
-	db, err := conn.MysqlParamsConn(ctx,"jinmao_cn:2Nc^JeNS7Jjm0755@tcp(pc-2zet0b02gcf3ylb32-out.mysql.polardb.rds.aliyuncs.com:3306)/")
+	ctx = util.SetDBCodeCtx(ctx,"")
+	db, err := conn.MysqlParamsConn(ctx,"")
 	assert.Nil(t, err)
 	err = db.DB().Ping()
 	assert.Nil(t, err)
