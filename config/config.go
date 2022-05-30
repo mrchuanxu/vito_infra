@@ -7,8 +7,8 @@ import (
 	"github.com/fsnotify/fsnotify"
 	"github.com/prometheus/common/log"
 
+	"github.com/mrchuanxu/vito_infra/logger"
 	"github.com/spf13/viper"
-	"github.com/VitoChueng/vito_infra/logger"
 )
 
 var config *viper.Viper

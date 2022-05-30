@@ -7,12 +7,12 @@ import (
 
 	"google.golang.org/grpc"
 
-	"github.com/VitoChueng/vito_infra/common"
+	"github.com/mrchuanxu/vito_infra/common"
 
 	"github.com/go-redis/redis/v7"
 	"github.com/jinzhu/gorm"
-	"github.com/VitoChueng/vito_infra/config"
-	"github.com/VitoChueng/vito_infra/logger"
+	"github.com/mrchuanxu/vito_infra/config"
+	"github.com/mrchuanxu/vito_infra/logger"
 	"google.golang.org/grpc/metadata"
 )
 
@@ -60,7 +60,7 @@ func MySQLConn(ctx context.Context) (*gorm.DB, error) {
 // MysqlParamsConn 通过参数获取链接
 // mysqlConnStr 参考 root:1234@tcp(rds.aliyuncs.com:3306)/
 // context 必须通过incomingCtx设定db_code
-func MysqlParamsConn(ctx context.Context,mysqlConnStr string) (*gorm.DB, error) {
+func MysqlParamsConn(ctx context.Context, mysqlConnStr string) (*gorm.DB, error) {
 	dbName := getDBName(ctx)
 	if dbName == "" {
 		return nil, errors.New("sql object is nil")
@@ -108,10 +108,9 @@ func RedisConn(ctx context.Context) (*redis.Client, error) {
 	return redisClient, err
 }
 
-
 // RedisParamsConn 获取redis客户端
 // redisConnAddr
-func RedisParamsConn(ctx context.Context,redisConnAddr,redisConnPass string) (*redis.Client, error) {
+func RedisParamsConn(ctx context.Context, redisConnAddr, redisConnPass string) (*redis.Client, error) {
 	redisClient, err := PrepareRedis(ctx,
 		RedisAddr(redisConnAddr),
 		RedisPassword(redisConnPass),

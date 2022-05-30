@@ -4,10 +4,10 @@ import (
 	"context"
 	"time"
 
+	"github.com/mrchuanxu/vito_infra/config"
 	stdErr "github.com/pkg/errors"
-	"github.com/VitoChueng/vito_infra/config"
 
-	"github.com/VitoChueng/vito_infra/logger"
+	"github.com/mrchuanxu/vito_infra/logger"
 	"go.etcd.io/etcd/clientv3"
 )
 

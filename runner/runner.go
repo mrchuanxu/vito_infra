@@ -6,7 +6,7 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/VitoChueng/vito_infra/logger"
+	"github.com/mrchuanxu/vito_infra/logger"
 )
 
 // Runable 可运行、停止的服务
