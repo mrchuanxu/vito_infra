@@ -3,7 +3,7 @@
 
 使用方式
 ```
-go get -u github.com/VitoChueng/vito_infra
+go get -u github.com/mrchuanxu/vito_infra
 ```
 
 因为要用到etcd，go mod 需要添加
