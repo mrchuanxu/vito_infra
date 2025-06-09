@@ -43,3 +43,6 @@ func Test_Stack(t *testing.T){
 	fmt.Println(TransStack.Pop())
 	runtime.GC()
 }
+
+
+// 递归 f(n) = f(n-1)+1 其中 f(1) = 1
