@@ -2,7 +2,10 @@ package alg
 
 import (
 	"errors"
+	"fmt"
 	"math/rand"
+
+	"github.com/emirpasic/gods/trees/redblacktree"
 )
 
 // 栈 是一种操作受限的数据结构
@@ -274,7 +277,7 @@ func QuickSort(arr []int,start,end int){
 }
 
 func partion(arr []int,start,end int)int{
-	pivot := rand.Intn(end-start+1)+start
+	pivot := rand.Intn(end-start+1)+start // 随机法
 	arr[pivot],arr[end] = arr[end],arr[pivot] // 做一次交换
 	val := arr[end]
 	i := start
@@ -288,3 +291,347 @@ func partion(arr []int,start,end int)int{
 
 	return i
 }
+
+
+//  查找的终止条件是 arr[mid] = val
+func Bsearch(arr []int,val int)int{
+	low := 0
+	high := len(arr) - 1
+	for low <= high{
+		mid := low + (high - low) / 2
+		if arr[mid] == val{
+			return mid
+		}
+		if arr[mid] < val{
+			low = mid + 1
+		}
+		if arr[mid] > val{
+			high = mid - 1
+		}
+	}
+	return -1
+}
+
+// 递归
+
+func BResearch(arr []int,low,high,val int) int{
+	// 终止条件
+	mid := low + ((high-low)>>1)
+	if arr[mid] == val{
+		return mid
+	}
+
+	if arr[mid] > val{ // 在左边
+		return BResearch(arr,low,mid-1,val)
+	}
+	return BResearch(arr,mid+1,high,val)
+}
+
+// 查找存在重复数字的数组
+func BsearchCopyStart(arr []int,val int)int{
+	if len(arr) <= 1{
+		return -1
+	}
+
+	low := 0
+	high := len(arr) - 1
+
+	for low<= high{
+		mid := low+ ((high- low) >> 1)
+		if arr[mid] < val{
+			low = mid + 1
+		}
+		if arr[mid] > val{
+			high = mid - 1
+		}
+		if mid == 0 || arr[mid - 1] != val{
+			return mid
+		}else{
+			high = mid - 1
+		}
+	}
+	return -1
+}
+
+// 查找最后一个存在重复数字的数组
+func BsearchCopyLast(arr []int,val int)int{
+	if len(arr) <= 1{
+		return -1
+	}
+
+	low := 0
+	high := len(arr) - 1
+
+	for low<= high{
+		mid := low+ ((high- low) >> 1)
+		if arr[mid] < val{
+			low = mid + 1
+		}
+		if arr[mid] > val{
+			high = mid - 1
+		}
+		if mid == len(arr) - 1 || arr[mid + 1] != val{
+			return mid
+		}else{
+			low = mid + 1
+		}
+	}
+	return -1
+}
+
+// 循环有序数组 那就是位置不一样 不能按从小到大排序
+// low := n  456123
+func SearchNums(nums []int, target int) int {
+    low := 0
+    high := len(nums) - 1
+
+   for low <= high {
+		mid := low + ((high - low) >> 1)
+        if nums[mid] == target {
+			return mid
+		}
+		
+		if nums[low] <= nums[mid]{
+			if nums[low] <= target && target < nums[mid]{
+				high = mid - 1
+			}else{
+				low = mid + 1
+			}
+		}else{
+			if nums[mid + 1] <= target && target <= nums[high]{
+				low = mid + 1
+			}else{
+				high = mid -1
+			}
+		}
+		
+	}
+    return -1
+}
+
+// 二叉树 前序遍历
+type TreeNode struct{
+	Val int
+	Left *TreeNode
+	Right *TreeNode
+}
+
+// 二叉查找树 动态数据集合的快速插入 删除 查找操作
+// 要求 其节点的左子树小于节点值 右子树大于节点的值
+// 查找
+func SearchNode(val int,node *TreeNode)*TreeNode{
+	if node == nil{
+		return node
+	}
+	if node.Val == val{
+		return node
+	}
+	if node.Val > val { // 在左子树查询
+		return SearchNode(val,node.Left)
+	}
+    return SearchNode(val,node.Right)
+	
+}
+
+// 插入
+func SearchInsertNode(val int,node *TreeNode)*TreeNode{
+	if node == nil{
+		return  &TreeNode{
+			 Val: val,
+		}
+	}
+	if val > node.Val{
+		if node.Right == nil{
+			node.Right = &TreeNode{
+				Val: val,
+			}
+			return node
+		}
+		SearchInsertNode(val,node.Right)
+	}else if val < node.Val{
+		if node.Left == nil{
+			node.Left = &TreeNode{
+				Val: val,
+			}
+			return node
+		}
+		SearchInsertNode(val,node.Left)
+	}
+
+	return node
+}
+
+// 删除
+func SearchDeleteNode(val int,node *TreeNode) *TreeNode{
+	if node == nil{
+		return nil
+	}
+	rmNode := SearchNode(val,node)
+	if rmNode.Left == nil && rmNode.Right == nil{ // 无子 干掉
+		rmNode = nil 
+	}
+	if rmNode.Left != nil && rmNode.Right ==nil{
+		rmNode.Val = rmNode.Left.Val
+		return node
+	}
+
+	if rmNode.Right != nil && rmNode.Left == nil{
+		rmNode.Val = rmNode.Right.Val
+		return node
+	}
+
+	if rmNode.Right != nil && rmNode.Left != nil{
+		bNode := rmNode.Right
+		for bNode.Left != nil{
+			bNode = bNode.Left
+		}
+		rmNode.Val = bNode.Val
+		bNode = nil
+	}
+	return node
+}
+
+
+// 堆排序 堆 大顶堆 小顶堆 实现中位数查询 高性能定时器 合并有序的小文件的问题
+func InsertHeap(arr []int,data int){
+	arr = append(arr, data)
+    n := len(arr)
+	for n/2 > 0 && arr[n-1]>arr[(n-1)/2]{
+		arr[n-1],arr[(n-1)/2] = arr[(n-1)/2],arr[n-1]
+		n = (n-1)/2
+	}
+}
+
+// Graph 
+type Graph struct{
+	points int // 顶点个数
+	edges int // 边个数
+	// 邻接表
+	adj map[int]*redblacktree.Tree
+}
+
+func InitGraph(points int)*Graph{
+	return &Graph{
+		points: points,
+		edges: 0,
+		adj: make(map[int]*redblacktree.Tree),
+	}
+}
+
+func (g *Graph) AddEdge(s,t int){
+	if g.adj[s] == nil{
+		g.adj[s] = redblacktree.NewWithIntComparator()
+	}
+	g.adj[s].Put(t,true)
+	if g.adj[t] == nil{
+		g.adj[t] = redblacktree.NewWithIntComparator()
+	}
+	g.adj[t].Put(s,true)
+	g.edges++
+}
+
+// 进行图的广度优先搜索 搜索一条从s到t的路径
+func (g *Graph) BFS(s,t int)[]int{
+	if s == t{
+		return []int{s}
+	}
+    // 根据三个结构进行访问的记录
+	queue := make([]int,0)
+	queue = append(queue,s)
+	visited := make(map[int]bool)
+	visited[s] = true
+	prev := make([]int,g.points)
+	for i:=0;i<g.points;i++{
+		prev[i] = -1
+	}
+	
+	for len(queue) > 0{
+		cur := queue[0]
+		queue = queue[1:]
+		if g.adj[cur] == nil{
+			continue
+		}
+		it := g.adj[cur].Iterator()
+		for it.Next(){
+			key := it.Key().(int)
+			if !visited[key]{
+				prev[key] = cur
+				if key == t{
+					return g.buildPath(prev,s,t)
+				}
+				visited[key] = true
+				queue = append(queue,key)
+			}
+		}
+	}
+	return nil
+}
+
+// 修复后的buildPath函数
+func (g *Graph) buildPath(prev []int, s, t int) []int {
+	// 检查是否有路径
+	if prev[t] == -1 && s != t {
+		return nil // 没有找到路径
+	}
+	
+	// 构建路径
+	path := make([]int, 0)
+	cur := t
+	
+	// 从终点回溯到起点
+	for cur != -1 {
+		path = append([]int{cur}, path...)
+		cur = prev[cur]
+	}
+	
+	// 验证路径的有效性
+	if len(path) > 0 && path[0] == s && path[len(path)-1] == t {
+		return path
+	}
+	
+	return nil
+}
+
+func printPath(prev []int,s,t int){
+	if prev[t] != -1 &&  t != s{
+		printPath(prev,s,prev[t])
+	}
+	fmt.Println(t)
+}
+
+var Found = false
+
+func (g *Graph) DFS(s,t int){
+	visited := make(map[int]bool)
+	visited[s] = true
+	prev := make([]int,g.points)
+	for i:=0;i<g.points;i++{
+		prev[i] = -1
+	}
+	g.recurseDFS(s,t,visited,prev)
+	printPath(prev,s,t)
+}
+
+func (g *Graph) recurseDFS(s,t int,visited map[int]bool,prev []int){
+	if Found{
+		return
+	}
+	visited[s] = true
+	if s == t{
+		Found = true
+		return
+	}
+	if Found{
+		return
+	}
+	it := g.adj[s].Iterator()
+	for it.Next(){
+		key := it.Key().(int)
+		if !visited[key]{
+			prev[key] = s
+			g.recurseDFS(key,t,visited,prev)
+		}
+	}
+}
+
+
