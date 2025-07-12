@@ -523,10 +523,10 @@ func (g *Graph) AddEdge(s,t int){
 		g.adj[s] = redblacktree.NewWithIntComparator()
 	}
 	g.adj[s].Put(t,true)
-	if g.adj[t] == nil{
-		g.adj[t] = redblacktree.NewWithIntComparator()
-	}
-	g.adj[t].Put(s,true)
+	// if g.adj[t] == nil{
+	// 	g.adj[t] = redblacktree.NewWithIntComparator()
+	// }
+	// g.adj[t].Put(s,true)
 	g.edges++
 }
 
